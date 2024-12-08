@@ -2,10 +2,11 @@ import { useState } from 'react';
 import reactLogo from './assets/react.svg';
 import viteLogo from '/vite.svg';
 import './App.css';
-import WelcomeMessage from './components/WelcomeMessage';  // Import the new component
+import WelcomeMessage from './components/WelcomeMessage';  // Import the WelcomeMessage component
 import Header from './components/Header';
 import MainContent from './components/MainContent';
 import Footer from './components/Footer';
+import UserProfile from './components/UserProfile';  // Import the new UserProfile component
 
 function App() {
   const [count, setCount] = useState(0);
@@ -16,8 +17,20 @@ function App() {
       <Header />
       <MainContent />
       <Footer />
-      
-      {/* You can keep the WelcomeMessage component if you want */}
+
+      {/* Use the UserProfile component with props */}
+      <UserProfile 
+        name="Alice" 
+        age="25" 
+        bio="Loves hiking and photography" 
+      />
+      <UserProfile 
+        name="Bob" 
+        age="30" 
+        bio="Enjoys traveling and coding" 
+      />
+
+      {/* Optional: if you want to keep the WelcomeMessage component */}
       <WelcomeMessage />
 
       {/* Optional: if you want to keep the counter functionality */}
