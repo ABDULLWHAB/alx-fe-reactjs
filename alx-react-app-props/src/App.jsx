@@ -23,9 +23,7 @@ function App() {
       <Footer />
 
       {/* User Profiles */}
-      {userData.map((user, index) => (
-        <UserProfile key={index} name={user.name} age={user.age} bio={user.bio} />
-      ))}
+      <UserProfile />
 
       <Counter />
       <WelcomeMessage />
