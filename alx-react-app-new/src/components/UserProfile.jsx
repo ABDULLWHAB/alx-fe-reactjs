@@ -1,11 +1,21 @@
-const UserProfile = (props) => {
-    return (
-        <div style={{ border: '1px solid gray', borderRadius: '5px', padding: '10px', margin: '10px', backgroundColor: '#f9f9f9' }}>
-            <h2 style={{ color: 'blue', fontSize: '1.5rem' }}>{props.name}</h2>
-            <p>Age: <span style={{ fontWeight: 'bold', color: '#333' }}>{props.age}</span>{props.age}</p>
-            <p style={{ fontStyle: 'italic', color: '#555' }}>Bio: {props.bio}</p>
+import { useContext } from 'react';
+import UserContext from '../UserContext';
+
+function UserProfile() {
+  const users = useContext(UserContext);
+
+  return (
+    <div>
+      {users.map((user, index) => (
+        <div key={index} style={{ border: '1px solid gray', margin: '10px', padding: '10px' }}>
+          <h2 style={{ color: 'blue' }}>{user.name}</h2>
+          <p>Age: <span style={{ fontWeight: 'bold' }}>{user.age}</span></p>
+          <p>Bio: {user.bio}</p>
         </div>
-    );
-};
+      ))}
+    </div>
+  );
+}
 
 export default UserProfile;
+
