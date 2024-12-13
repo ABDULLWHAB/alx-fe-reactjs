@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import RegistrationForm from './components/RegistrationForm'; // Import controlled form
-import FormikForm from './components/FormikForm'; // Import Formik-based form
+import FormikForm from './components/FormikForm';
 
 function App() {
   return (
