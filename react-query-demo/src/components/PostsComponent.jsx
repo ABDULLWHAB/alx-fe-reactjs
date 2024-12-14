@@ -1,7 +1,6 @@
 import React from 'react';
 import { useQuery } from 'react-query';
 
-// Fetching function to get posts from the API
 const fetchPosts = async () => {
   const response = await fetch('https://jsonplaceholder.typicode.com/posts');
   if (!response.ok) {
@@ -11,8 +10,19 @@ const fetchPosts = async () => {
 };
 
 function PostsComponent() {
-  // Use useQuery hook to fetch data
-  const { data, error, isLoading, isError, refetch } = useQuery('posts', fetchPosts);
+  const {
+    data,
+    error,
+    isLoading,
+    isError,
+    refetch,
+    isFetching,
+  } = useQuery('posts', fetchPosts, {
+    cacheTime: 1000 * 60 * 5,
+    staleTime: 1000 * 60 * 2,
+    refetchOnWindowFocus: true,
+    keepPreviousData: true,
+  });
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -25,7 +35,9 @@ function PostsComponent() {
   return (
     <div>
       <h1>Posts</h1>
-      <button onClick={refetch}>Refetch Posts</button>
+      <button onClick={refetch} disabled={isFetching}>
+        {isFetching ? 'Refetching...' : 'Refetch Posts'}
+      </button>
       <ul>
         {data.map(post => (
           <li key={post.id}>
