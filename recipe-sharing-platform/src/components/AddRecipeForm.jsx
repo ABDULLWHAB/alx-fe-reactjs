@@ -4,29 +4,34 @@ const AddRecipeForm = () => {
   const [title, setTitle] = useState('');
   const [ingredients, setIngredients] = useState('');
   const [instructions, setInstructions] = useState('');
-  const [error, setError] = useState('');
+  const [errors, setErrors] = useState({});
+
+  const validate = () => {
+    const newErrors = {};
+    if (!title) newErrors.title = 'Title is required';
+    if (!ingredients) newErrors.ingredients = 'Ingredients are required';
+    if (ingredients.split('\n').length < 2) newErrors.ingredients = 'Please add at least two ingredients';
+    if (!instructions) newErrors.instructions = 'Instructions are required';
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!title || !ingredients || !instructions || ingredients.split('\n').length < 2) {
-      setError('Please fill out all fields and ensure there are at least two ingredients.');
-      return;
-    }
-    setError('');
+    if (!validate()) return;
     const newRecipe = {
       title,
       ingredients: ingredients.split('\n'),
       instructions: instructions.split('\n'),
     };
     console.log('New Recipe:', newRecipe);
-    
   };
 
   return (
     <div className="max-w-4xl mx-auto p-4">
       <h2 className="text-2xl font-semibold text-center mb-6">Add New Recipe</h2>
-      {error && <p className="text-red-500 text-center mb-4">{error}</p>}
       <form onSubmit={handleSubmit} className="space-y-4">
+        {errors.title && <p className="text-red-500">{errors.title}</p>}
         <div>
           <label htmlFor="title" className="block text-lg font-medium">Recipe Title</label>
           <input
@@ -38,6 +43,8 @@ const AddRecipeForm = () => {
             placeholder="Enter recipe title"
           />
         </div>
+        
+        {errors.ingredients && <p className="text-red-500">{errors.ingredients}</p>}
         <div>
           <label htmlFor="ingredients" className="block text-lg font-medium">Ingredients</label>
           <textarea
@@ -49,6 +56,8 @@ const AddRecipeForm = () => {
             placeholder="Enter ingredients (one per line)"
           />
         </div>
+
+        {errors.instructions && <p className="text-red-500">{errors.instructions}</p>}
         <div>
           <label htmlFor="instructions" className="block text-lg font-medium">Instructions</label>
           <textarea
@@ -60,6 +69,7 @@ const AddRecipeForm = () => {
             placeholder="Enter preparation steps"
           />
         </div>
+
         <div className="flex justify-center">
           <button
             type="submit"
