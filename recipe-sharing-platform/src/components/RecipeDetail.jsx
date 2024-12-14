@@ -23,16 +23,16 @@ const RecipeDetail = () => {
         <div>
           <h2 className="text-xl font-semibold mb-2">Ingredients</h2>
           <ul className="list-disc pl-5 mb-6">
-            <li>Ingredient 1</li>
-            <li>Ingredient 2</li>
-            <li>Ingredient 3</li>
+            {recipe.ingredients && recipe.ingredients.map((ingredient, index) => (
+              <li key={index}>{ingredient}</li>
+            ))}
           </ul>
 
           <h2 className="text-xl font-semibold mb-2">Cooking Instructions</h2>
           <ol className="list-decimal pl-5">
-            <li>Step 1: Do this.</li>
-            <li>Step 2: Do that.</li>
-            <li>Step 3: Done!</li>
+            {recipe.instructions && recipe.instructions.map((instruction, index) => (
+              <li key={index}>{instruction}</li>
+            ))}
           </ol>
         </div>
       </div>
