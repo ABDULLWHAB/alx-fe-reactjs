@@ -1,53 +1,55 @@
-import React, { useState } from 'react';
-import { fetchUserData } from '../src/services/githubService';
-import UserCard from './UserCard';
+import { useState } from 'react';
+import { fetchUserData } from '../services/githubService';
 
-function Search() {
+const Search = () => {
   const [username, setUsername] = useState('');
-  const [user, setUser] = useState(null);
+  const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState('');
 
-  const handleInputChange = (e) => {
-    setUsername(e.target.value);
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSearch = async () => {
     setLoading(true);
-    setError(null);
-    setUser(null);
-
+    setError('');
     try {
-      const userData = await fetchUserData(username);
-      setUser(userData);
+      const data = await fetchUserData(username);
+      if (data) {
+        setUserData(data);
+      } else {
+        setError("Looks like we can't find the user");
+      }
     } catch (err) {
-      setError(err.message || 'Looks like we can\'t find the user');
-    } finally {
-      setLoading(false);
+      setError('Error fetching user data');
     }
+    setLoading(false);
   };
 
   return (
     <div>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="Search GitHub User..."
-          value={username}
-          onChange={handleInputChange}
-          className="border p-2 rounded"
-        />
-        <button type="submit" className="ml-2 p-2 bg-blue-500 text-white rounded">
-          Search
-        </button>
-      </form>
+      <input
+        type="text"
+        value={username}
+        onChange={(e) => setUsername(e.target.value)}
+        placeholder="Enter GitHub username"
+      />
+      <button onClick={handleSearch}>Search</button>
 
       {loading && <p>Loading...</p>}
+
       {error && <p>{error}</p>}
-      {user && !loading && !error && <UserCard user={user} />}
+
+      {userData && (
+        <div>
+          <img src={userData.avatar_url} alt={userData.login} width="100" />
+          <h2>{userData.name}</h2>
+          <p>{userData.login}</p>
+          <p>{userData.bio}</p>
+          <a href={userData.html_url} target="_blank" rel="noopener noreferrer">
+            View Profile
+          </a>
+        </div>
+      )}
     </div>
   );
-}
+};
 
 export default Search;
