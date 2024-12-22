@@ -28,7 +28,7 @@ export const searchUsers = async (queryParams) => {
 
     const headers = API_KEY ? { Authorization: `token ${API_KEY}` } : {};
     
-    const response = await axios.get(`${API_URL}/search/users?${query}`, { headers });
+    const response = await axios.get(`https://api.github.com/search/users?${query}`, { headers });
 
     return response.data.items;
   } catch (error) {
