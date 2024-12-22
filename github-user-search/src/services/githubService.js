@@ -13,25 +13,12 @@ export const fetchUserData = async (username) => {
   }
 };
 
-export const searchUsers = async (queryParams) => {
+export const searchUsers = async (query) => {
   try {
-    const { username, location, minRepos } = queryParams;
-    let query = `q=${username}`;
-
-    if (location) {
-      query += `+location:${location}`;
-    }
-    
-    if (minRepos) {
-      query += `+repos:>=${minRepos}`;
-    }
-
     const headers = API_KEY ? { Authorization: `token ${API_KEY}` } : {};
-    
-    const response = await axios.get(`https://api.github.com/search/users?${query}`, { headers });
-
+    const response = await axios.get(`https://api.github.com/search/users?q=${query}`, { headers });
     return response.data.items;
   } catch (error) {
-    throw new Error('Error fetching search results');
+    throw new Error('Error fetching user search results');
   }
 };
