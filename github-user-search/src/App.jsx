@@ -1,15 +1,25 @@
-import { useState } from 'react'
-import './App.css'
 import React, { useState } from 'react';
+import './App.css';
 import { fetchUserData } from './services/githubService';
 
 const App = () => {
   const [username, setUsername] = useState('');
   const [userData, setUserData] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const handleSearch = async () => {
-    const data = await fetchUserData(username);
-    setUserData(data);
+    setLoading(true);
+    setError(null);
+
+    try {
+      const data = await fetchUserData(username);
+      setUserData(data);
+    } catch (err) {
+      setError('User not found or an error occurred.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -20,9 +30,13 @@ const App = () => {
         onChange={(e) => setUsername(e.target.value)}
         placeholder="Enter GitHub username"
       />
-      <button onClick={handleSearch}>Search</button>
+      <button onClick={handleSearch} disabled={loading}>
+        {loading ? 'Searching...' : 'Search'}
+      </button>
 
-      {userData && (
+      {error && <p className="error">{error}</p>}
+
+      {userData && !loading && !error && (
         <div>
           <h2>{userData.name}</h2>
           <p>{userData.bio}</p>

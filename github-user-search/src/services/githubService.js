@@ -9,6 +9,6 @@ export const fetchUserData = async (username) => {
     const response = await axios.get(`${API_URL}/users/${username}`, { headers });
     return response.data;
   } catch (error) {
-    console.error('Error fetching user data', error);
+    throw new Error('Error fetching user data');
   }
 };
