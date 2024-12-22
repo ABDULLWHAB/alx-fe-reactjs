@@ -3,7 +3,6 @@ import axios from 'axios';
 const API_KEY = process.env.REACT_APP_GITHUB_API_KEY;
 const API_URL = 'https://api.github.com';
 
-
 export const fetchUserData = async (username) => {
   try {
     const headers = API_KEY ? { Authorization: `token ${API_KEY}` } : {};
@@ -13,7 +12,6 @@ export const fetchUserData = async (username) => {
     throw new Error('Error fetching user data');
   }
 };
-
 
 export const searchUsers = async (queryParams) => {
   try {
@@ -29,7 +27,9 @@ export const searchUsers = async (queryParams) => {
     }
 
     const headers = API_KEY ? { Authorization: `token ${API_KEY}` } : {};
+    
     const response = await axios.get(`${API_URL}/search/users?${query}`, { headers });
+
     return response.data.items;
   } catch (error) {
     throw new Error('Error fetching search results');
