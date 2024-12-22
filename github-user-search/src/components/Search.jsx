@@ -7,7 +7,8 @@ const Search = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const handleSearch = async () => {
+  const handleSearch = async (e) => {
+    e.preventDefault();
     setLoading(true);
     setError('');
     try {
@@ -24,14 +25,14 @@ const Search = () => {
   };
 
   return (
-    <div>
+    <form onSubmit={handleSearch}>
       <input
         type="text"
         value={username}
         onChange={(e) => setUsername(e.target.value)}
         placeholder="Enter GitHub username"
       />
-      <button onClick={handleSearch}>Search</button>
+      <button type="submit">Search</button>
 
       {loading && <p>Loading...</p>}
 
@@ -48,7 +49,7 @@ const Search = () => {
           </a>
         </div>
       )}
-    </div>
+    </form>
   );
 };
 
