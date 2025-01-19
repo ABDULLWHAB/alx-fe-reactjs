@@ -25,7 +25,7 @@ const Search = () => {
         setSearchResults(results);
       }
     } catch (err) {
-      setError('Error fetching user data');
+      setError('Looks like we cant find the user');
     } finally {
       setLoading(false);
     }
